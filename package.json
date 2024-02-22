@@ -1,6 +1,6 @@
 {
   "name": "our-money",
-  "private": false,
+  "private": true,
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://github.com/talisma-cassoma.github.io/our-money",
