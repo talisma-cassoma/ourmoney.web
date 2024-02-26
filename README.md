@@ -2,7 +2,7 @@
 
 - [x] list all transations
 - [x] add new transation
-- [ ] connect to bkd api
+- [ ] connect to bkd API
 - [ ] select category
 - [x] search:
   - [x] transation
