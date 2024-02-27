@@ -65,6 +65,26 @@
       "email": "talisma63@gmail.com",
       "createdAt": "2024-02-27T15:34:33.088Z",
       "id": 8
+    },
+    {
+      "description": "carrinho",
+      "price": 20,
+      "category": "Brinquedo",
+      "type": "outcome",
+      "owner": "talis",
+      "email": "talis@gmail.com",
+      "createdAt": "2024-02-27T16:21:59.150Z",
+      "id": 9
+    },
+    {
+      "description": "Frango",
+      "price": 43,
+      "category": "alimentacao",
+      "type": "outcome",
+      "owner": "talis",
+      "email": "talis@gmail.com",
+      "createdAt": "2024-02-27T17:23:00.453Z",
+      "id": 10
     }
   ]
 }

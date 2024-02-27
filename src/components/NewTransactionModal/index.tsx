@@ -52,6 +52,8 @@ export function NewTransactionModal() {
       price,
       category,
       type,
+      owner:"talis",
+      email:"talis@gmail.com",
     })
 
     reset()

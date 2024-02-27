@@ -49,15 +49,15 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   const createTransaction = useCallback(
     async (data: CreateTransactionInput) => {
-      const { description, price, category, type } = data
+      const { description, price, category, type,  owner, email } = data
 
       const response = await api.post('transactions', {
         description,
         price,
         category,
         type,
-        owner:"talis",
-        email:"talis@gmail.com",
+        owner,
+        email,
         createdAt: new Date(),
       })
 
