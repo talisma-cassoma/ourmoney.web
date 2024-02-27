@@ -3,7 +3,7 @@
 - [x] list all transations
 - [x] add new transation
 - [ ] connect to bkd API
-- [ ] select category
+- [x] select category
 - [x] search:
   - [x] transation
   - [x] category
@@ -17,5 +17,12 @@
   - [ ] since -> to
 
 
-
+Transition :
+  - id : uuid,
+  - description": string,
+  - type": "income" || "outcome" || "saving",
+  - category": string(alimentcao, convivio, ...etc),
+  - price : number,
+  - owner: "talisma" || "geovana"
+  - createdAt: date
 

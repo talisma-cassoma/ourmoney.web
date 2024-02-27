@@ -16,6 +16,8 @@ interface CreateTransactionInput {
   price: number
   category: string
   type: 'income' | 'outcome'
+  owner: string
+  email: string
 }
 
 interface TransactionContextType {
@@ -54,6 +56,8 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         price,
         category,
         type,
+        owner:"talis",
+        email:"talis@gmail.com",
         createdAt: new Date(),
       })
 

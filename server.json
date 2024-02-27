@@ -55,6 +55,16 @@
       "type": "outcome",
       "createdAt": "2024-02-23T13:03:18.535Z",
       "id": 7
+    },
+    {
+      "description": "massa ",
+      "price": 8,
+      "category": "alimentacao",
+      "type": "outcome",
+      "owner": "talisma",
+      "email": "talisma63@gmail.com",
+      "createdAt": "2024-02-27T15:34:33.088Z",
+      "id": 8
     }
   ]
 }
