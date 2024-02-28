@@ -95,6 +95,16 @@
       "email": "talis@gmail.com",
       "createdAt": "2024-02-28T13:47:23.450Z",
       "id": 11
+    },
+    {
+      "description": "carros ",
+      "price": 50.2,
+      "category": "extra",
+      "type": "income",
+      "owner": "talis",
+      "email": "talis@gmail.com",
+      "createdAt": "2024-02-28T14:09:15.077Z",
+      "id": 12
     }
   ]
 }

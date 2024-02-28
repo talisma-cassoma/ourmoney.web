@@ -31,3 +31,8 @@ export const NewTransactionButton = styled.button`
     transition: background-color 0.2s;
   }
 `
+export const ProfileWrapper = styled.div`
+  position: relative; 
+  width: fit-content;
+  height: fit-content; 
+`; 
