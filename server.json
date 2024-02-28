@@ -85,6 +85,16 @@
       "email": "talis@gmail.com",
       "createdAt": "2024-02-27T17:23:00.453Z",
       "id": 10
+    },
+    {
+      "description": "petit dej no trabalho",
+      "price": 20,
+      "category": "extra",
+      "type": "outcome",
+      "owner": "talis",
+      "email": "talis@gmail.com",
+      "createdAt": "2024-02-28T13:47:23.450Z",
+      "id": 11
     }
   ]
 }

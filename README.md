@@ -2,8 +2,9 @@
 
 - [x] list all transations
 - [x] add new transation
-- [ ] connect to bkd API
-- [x] select category
+  - [ ] informe not saved transation to user 
+- [x] connect to bkd API
+- [ ] select category
 - [x] search:
   - [x] transation
   - [x] category
@@ -15,14 +16,14 @@
 - [x] show outcome(expenses) :
   - [ ] of mointhly
   - [ ] since -> to
+- [ ] authnticatin
 
 
-Transition :
+* Transition :
   - id : uuid,
-  - description": string,
-  - type": "income" || "outcome" || "saving",
-  - category": string(alimentcao, convivio, ...etc),
-  - price : number,
+  - description: string
+  - type : "income" || "outcome" || "saving"
+  - category: string(alimentcao, convivio, ...)
+  - price : Float(positivo somente)
   - owner: "talisma" || "geovana"
   - createdAt: date
-
