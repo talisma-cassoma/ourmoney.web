@@ -15,7 +15,7 @@ export function Login() {
           <img src={googleIconImg} alt="Logo do Google" />
           Login com o Google
         </button>
-        <div className="separator">ou digite sua palavra passe</div>
+        <div className="separator">ou acesse com sua palavra passe</div>
         <form>
           <input
             type="text"
