@@ -22,7 +22,7 @@ export function Login() {
             placeholder="nome usaurio ou email"
           />
           <input
-            type="text"
+            type="password"
             placeholder="Digite sua palavra-passe"
           />
           <Button type="submit">
