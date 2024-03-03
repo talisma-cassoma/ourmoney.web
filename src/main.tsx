@@ -9,7 +9,7 @@ import { Login } from "./pages/login/components";
 import { AuthContextProvider } from "./contexts/AuthContext";
 
 
-const rootElement: HTMLElement | null = document.getElementById("root");
+const rootElement = document.getElementById("root");
 createRoot(rootElement).render(
   <BrowserRouter>
    <AuthContextProvider>
