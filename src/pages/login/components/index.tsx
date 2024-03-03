@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Button } from '../../../components/Button';
 import logoImg from '../../../assets/logo.svg';
 import { GoogleLoginButton, clientId } from '../../../components/GoogleLoginButton';
