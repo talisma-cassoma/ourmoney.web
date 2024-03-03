@@ -1,7 +1,7 @@
 // GoogleLoginButton.tsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import { api } from '../../lib/axios';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -21,19 +21,22 @@ export function GoogleLoginButton() {
   const { setVerifiedUser } = useContext(AuthContext); // Access setUser from Auth context
   const [user, setUser] = useState<User | undefined>();
 
-// Based on https://developers.google.com/identity/sign-in/web/reference
-interface GoogleLoginResponse {
-  profileObj: {
+
+
+interface googleAuthInt {
+   profileObj: {
     googleId: string;
     imageUrl: string;
     email: string;
     name: string;
     givenName: string;
     familyName: string;
-  }
+  };
+   tokenId: string;
+   googleLoginResponse: GoogleLoginResponse | GoogleLoginResponseOffline;
 }
 
-    const handleSuccess = async (res: GoogleLoginResponse) => {
+    const handleSuccess = async (res: googleAuthInt): Promise<void> => {
     const { email, googleId, name } = res.profileObj;
     if (!email || !name || !googleId) {
       throw new Error("Missing infos from Google");
