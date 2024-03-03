@@ -21,15 +21,19 @@ export function GoogleLoginButton() {
   const { setVerifiedUser } = useContext(AuthContext); // Access setUser from Auth context
   const [user, setUser] = useState<User | undefined>();
 
-  type response={
+// Based on https://developers.google.com/identity/sign-in/web/reference
+interface GoogleLoginResponse {
   profileObj: {
-    email: string; 
     googleId: string;
+    imageUrl: string;
+    email: string;
     name: string;
+    givenName: string;
+    familyName: string;
   }
 }
-  
-  const handleSuccess = async (res: response) => {
+
+    const handleSuccess = async (res: GoogleLoginResponse) => {
     const { email, googleId, name } = res.profileObj;
     if (!email || !name || !googleId) {
       throw new Error("Missing infos from Google");
