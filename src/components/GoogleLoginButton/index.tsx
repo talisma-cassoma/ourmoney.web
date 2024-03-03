@@ -37,8 +37,6 @@ export function GoogleLoginButton() {
 
     setUser({ email, googleId, name });
     
-    console.log(user)
-    
     try {
       const response = await api.post('/login', user);
 
