@@ -21,7 +21,15 @@ export function GoogleLoginButton() {
   const { setVerifiedUser } = useContext(AuthContext); // Access setUser from Auth context
   const [user, setUser] = useState<User | undefined>();
 
-  const handleSuccess = async (res) => {
+  type response={
+  profileObj: {
+    email: string; 
+    googleId: string;
+    name: string;
+  }
+}
+  
+  const handleSuccess = async (res: response) => {
     const { email, googleId, name } = res.profileObj;
     if (!email || !name || !googleId) {
       throw new Error("Missing infos from Google");
@@ -43,7 +51,7 @@ export function GoogleLoginButton() {
     }
   };
 
-  const handleError = (error) => {
+  const handleError = (error: object) => {
     console.log('Login Failed', error);
   };
 
