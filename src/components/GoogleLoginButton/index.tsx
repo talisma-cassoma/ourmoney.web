@@ -23,41 +23,42 @@ export function GoogleLoginButton() {
 
 
 
-interface googleAuthInt {
-   profileObj: {
-    googleId: string;
-    imageUrl: string;
-    email: string;
-    name: string;
-    givenName: string;
-    familyName: string;
-  };
-   tokenId: string;
-   googleLoginResponse: GoogleLoginResponse | GoogleLoginResponseOffline;
-}
+// interface googleAuthInt {
+//    profileObj: {
+//     googleId: string;
+//     imageUrl: string;
+//     email: string;
+//     name: string;
+//     givenName: string;
+//     familyName: string;
+//   };
+//    tokenId: string;
+//    googleLoginResponse: GoogleLoginResponse | GoogleLoginResponseOffline;
+// }
 
-    const handleSuccess = async (res: googleAuthInt): Promise<void> => {
-    const { email, googleId, name } = res.profileObj;
-    if (!email || !name || !googleId) {
-      throw new Error("Missing infos from Google");
+const handleSuccess = async (res: GoogleLoginResponse | GoogleLoginResponseOffline): Promise<void> => {
+  const { profileObj, tokenId } = res;
+  const { email, googleId, name } = profileObj;
+  if (!email || !name || !googleId) {
+    throw new Error("Missing infos from Google");
+  }
+
+  setUser({ email, googleId, name });
+  
+  try {
+    const response = await api.post('/login', { tokenId });
+
+    if (response.status === 405) {
+      console.log("User not allowed:", response.data);
+    } else {
+      const authToken = response.data.authToken;
+      setVerifiedUser({ name, email, authToken }); // Update user in Auth context with token
+      navigate('/our-money/transactions'); // Redirect to "/transactions" page
     }
-
-    setUser({ email, googleId, name });
-    
-    try {
-      const response = await api.post('/login', user);
-
-      if (response.status === 405) {
-        console.log("User not allowed:", response.data);
-      } else {
-        const authToken = response.data.authToken;
-        setVerifiedUser({ name, email, authToken }); // Update user in Auth context with token
-        navigate('/our-money/transactions'); // Redirect to "/transactions" page
-      }
-    } catch (error) {
-      console.error("Error logging in:", error);
-    }
-  };
+  } catch (error) {
+    console.error("Error logging in:", error);
+  }
+};
 
   const handleError = (error: object) => {
     console.log('Login Failed', error);
