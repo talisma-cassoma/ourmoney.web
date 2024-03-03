@@ -1,4 +1,6 @@
-import { ButtonHTMLAttributes } from 'react'
+import { ButtonHTMLAttributes, useState } from 'react'
+//import { useNavigate } from 'react-router-dom';
+
 
 import './styles.scss';
 
@@ -8,9 +10,12 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export function Button({ isOutlined = false, ...props }: ButtonProps) {
   return (
-    <button 
+    <button
       className={`login button ${isOutlined ? 'login outlined' : ''}`}
       {...props}
     />
   )
 }
+
+
+
