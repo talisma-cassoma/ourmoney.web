@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Button } from '../../../components/Button';
+import { LoginButton } from '../../../components/LoginButton';
 import logoImg from '../../../assets/logo.svg';
 import { GoogleLoginButton, clientId } from '../../../components/GoogleLoginButton';
 import './styles.scss';
@@ -30,7 +30,7 @@ export function Login() {
         <form>
           <input type="text" placeholder="username or email" />
           <input type="password" placeholder="Enter your password" />
-          <Button type="submit">LOGIN</Button>
+          <LoginButton type="submit">LOGIN</LoginButton>
         </form>
       </main>
     </div>

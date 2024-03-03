@@ -6,7 +6,7 @@ import { api } from '../../lib/axios';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 
-import '../Button/styles.scss';
+import '../LoginButton/styles.scss';
 
 export const clientId = '75067421805-maac5mvgluvp53g7slga5326krteuf5t.apps.googleusercontent.com';
 
