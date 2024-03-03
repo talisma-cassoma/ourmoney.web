@@ -7,11 +7,10 @@ import {
 import { App } from "./App";
 import { Login } from "./pages/login/components";
 import { AuthContextProvider } from "./contexts/AuthContext";
-//import { GoogleOAuthProvider } from "@react-oauth/google";
 
-const rootElement = document.getElementById("root");
+
+const rootElement: HTMLElement | null = document.getElementById("root");
 createRoot(rootElement).render(
- // <GoogleOAuthProvider clientId="75067421805-maac5mvgluvp53g7slga5326krteuf5t.apps.googleusercontent.com"> 
   <BrowserRouter>
    <AuthContextProvider>
     <Routes>
@@ -20,5 +19,4 @@ createRoot(rootElement).render(
     </Routes>
     </AuthContextProvider>
   </BrowserRouter>
-
 );

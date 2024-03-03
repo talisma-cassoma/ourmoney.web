@@ -1,4 +1,3 @@
-// Login.tsx
 import React, { useEffect } from 'react';
 import { Button } from '../../../components/Button';
 import logoImg from '../../../assets/logo.svg';
@@ -6,8 +5,6 @@ import { GoogleLoginButton, clientId } from '../../../components/GoogleLoginButt
 import './styles.scss';
 import { gapi } from "gapi-script";
 
-
-console.log(clientId)
 
 export function Login() {
   useEffect(() => {
@@ -18,8 +15,6 @@ export function Login() {
           scope: ""
         }).then(() => {
           console.log('Google API initialized');
-        }).catch((error) => {
-          console.error('Error initializing Google API:', error);
         });
       });
     }

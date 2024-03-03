@@ -36,15 +36,18 @@ export function GoogleLoginButton() {
     }
 
     setUser({ email, googleId, name });
+    
+    console.log(user)
+    
     try {
-      const response = await api.post('login', user);
+      const response = await api.post('/login', user);
 
       if (response.status === 405) {
         console.log("User not allowed:", response.data);
       } else {
         const authToken = response.data.authToken;
         setVerifiedUser({ name, email, authToken }); // Update user in Auth context with token
-        navigate('/transactions'); // Redirect to "/transactions" page
+        navigate('/our-money/transactions'); // Redirect to "/transactions" page
       }
     } catch (error) {
       console.error("Error logging in:", error);
