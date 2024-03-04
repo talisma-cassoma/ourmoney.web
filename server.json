@@ -105,6 +105,16 @@
       "email": "talis@gmail.com",
       "createdAt": "2024-02-28T14:09:15.077Z",
       "id": 12
+    },
+    {
+      "description": "taxi ",
+      "price": 90,
+      "category": "transporte",
+      "type": "outcome",
+      "owner": "talis",
+      "email": "talis@gmail.com",
+      "createdAt": "2024-03-04T13:18:39.391Z",
+      "id": 13
     }
   ]
 }

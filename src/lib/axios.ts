@@ -7,7 +7,7 @@ if (window.location.hostname === "talisma-cassoma.github.io") {
   baseURL = 'https://our-money-bkd.onrender.com/api';
 } else {
   // Set localhost base URL
-  baseURL = 'http://localhost:3000';
+  baseURL = 'http://localhost:3333';
 }
 
 export const api = axios.create({ baseURL });
