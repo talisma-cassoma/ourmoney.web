@@ -9,8 +9,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <AuthContextProvider>
       <Routes>
-        <Route path="/our-money/" element={<Login />} />
+        <Route path="/our-money/login" element={<Login />} />
         <Route path="/our-money/transactions" element={<App />} />
+        <Route path="/our-money/" element={<App />} />
       </Routes>
     </AuthContextProvider>
   </BrowserRouter>
