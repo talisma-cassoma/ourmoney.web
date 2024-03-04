@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { LoginButton } from '../../../components/LoginButton'
-import logoImg from '../../../assets/logo.svg';
-import { GoogleLoginButton, clientId } from '../../../components/GoogleLoginButton';
+import { LoginButton } from '../../components/LoginButton'
+import logoImg from '../../assets/logo.svg';
+import { GoogleLoginButton, clientId } from '../../components/GoogleLoginButton';
 import './styles.scss';
 import { gapi } from "gapi-script";
 
