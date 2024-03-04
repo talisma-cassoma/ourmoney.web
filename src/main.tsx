@@ -13,11 +13,14 @@ import { AuthContextProvider } from './contexts/AuthContext';
 
 const router = createBrowserRouter([
   {
-    path:"/our-money", element:<Login />,
+    path:"/our-money", element:<App/>,
   },
   {
     path:"/our-money/transactions", element:<App />,
-  }
+  },
+  {
+    path:"/our-money/login", element:<Login />,
+  },
 ])
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
