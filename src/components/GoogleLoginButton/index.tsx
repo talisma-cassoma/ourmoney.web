@@ -22,20 +22,6 @@ export function GoogleLoginButton() {
   const [user, setUser] = useState<User | undefined>();
 
 
-
-// interface googleAuthInt {
-//    profileObj: {
-//     googleId: string;
-//     imageUrl: string;
-//     email: string;
-//     name: string;
-//     givenName: string;
-//     familyName: string;
-//   };
-//    tokenId: string;
-//    googleLoginResponse: GoogleLoginResponse | GoogleLoginResponseOffline;
-// }
-
 const handleSuccess = async (res: GoogleLoginResponse | GoogleLoginResponseOffline): Promise<void> => {
   const { profileObj } = res as GoogleLoginResponse;
   const { email, googleId, name } = profileObj;
