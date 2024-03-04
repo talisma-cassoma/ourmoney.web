@@ -1,5 +1,5 @@
 import { HeaderContainer, HeaderContent, NewTransactionButton, ProfileWrapper } from './styles'
-import { Profile } from "./Profile"
+//import { Profile } from "./Profile"
 import * as Dialog from '@radix-ui/react-dialog'
 
 import logoImg from '../../assets/logo.svg'
@@ -9,6 +9,11 @@ export function Header() {
   return (
     <HeaderContainer>
       <HeaderContent>
+        <ProfileWrapper>
+          <img src={logoImg} alt="" />
+          {/* <Profile/> */}
+        </ProfileWrapper>
+
         <Dialog.Root>
           <Dialog.Trigger asChild>
             <NewTransactionButton>Nova transação</NewTransactionButton>
