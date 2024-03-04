@@ -37,7 +37,7 @@ export function GoogleLoginButton() {
 // }
 
 const handleSuccess = async (res: GoogleLoginResponse | GoogleLoginResponseOffline): Promise<void> => {
-  const { profileObj, tokenId } = res;
+  const { profileObj } = res as GoogleLoginResponse;
   const { email, googleId, name } = profileObj;
   if (!email || !name || !googleId) {
     throw new Error("Missing infos from Google");
@@ -46,7 +46,7 @@ const handleSuccess = async (res: GoogleLoginResponse | GoogleLoginResponseOffli
   setUser({ email, googleId, name });
   
   try {
-    const response = await api.post('/login', { tokenId });
+    const response = await api.post('/login', user);
 
     if (response.status === 405) {
       console.log("User not allowed:", response.data);
