@@ -1,33 +1,23 @@
-import React from 'react';
-import * as ReactDOM from 'react-dom/client'
-import {
-  //BrowserRouter,
-  createBrowserRouter,
-  //Routes,
-  //Route,
-  RouterProvider
+
+import ReactDOM from 'react-dom/client'
+import { 
+  //BrowserRouter, 
+  Routes, 
+  Route, 
+  HashRouter 
 } from 'react-router-dom';
 import { App } from './App';
 import { Login } from './pages/Login';
 import { AuthContextProvider } from './contexts/AuthContext';
 
-const router = createBrowserRouter([
-  {
-    path:"/our-money", element:<App/>,
-  },
-  {
-    path:"/our-money/transactions", element:<App />,
-  },
-  {
-    path:"/our-money/login", element:<Login />,
-  },
-])
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-  {/* <BrowserRouter> */}
     <AuthContextProvider>
-      <RouterProvider router={router}/>
+      <HashRouter >
+        <Routes>
+          <Route path="/our-money/login" element={<Login />} />
+          <Route path="/our-money/transactions" element={<App />} />
+          <Route path="/" element={<App />} />
+        </Routes>
+      </HashRouter>
     </AuthContextProvider>
-  {/* </BrowserRouter> */}
-  </React.StrictMode>
 );
