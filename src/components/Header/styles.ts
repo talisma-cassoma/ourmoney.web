@@ -37,5 +37,6 @@ export const ProfileWrapper = styled.div`
   height: fit-content; 
   p{
     color:#00875F;
+    cursor: pointer;
   }
 `; 

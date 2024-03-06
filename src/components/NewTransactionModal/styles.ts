@@ -75,7 +75,7 @@ export const CloseButton = styled(Dialog.Close)`
   top: 1.5rem;
   right: 1.5rem;
   line-height: 0;
-  cursor: pointer;
+  c
   color: ${(props) => props.theme['gray-500']};
 `
 
