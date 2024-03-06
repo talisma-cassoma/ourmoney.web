@@ -51,7 +51,7 @@ export function LoginModal() {
           <form >
             <input 
               className="Input email" 
-              placeholder="name@gmail.com"
+              placeholder="ex: nome@gmail.com"
               value={email}
               onChange={handleEmailChange}
             />

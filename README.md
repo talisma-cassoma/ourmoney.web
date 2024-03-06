@@ -16,10 +16,10 @@
 - [x] connect to bkd API
 - [ ] select category
 - [x] show income(solde) :
-  - [ ] of mointhly
+  - [ ] mointhly
   - [ ] since ever
 - [x] show outcome(expenses) :
-  - [ ] of mointh
+  - [ ] of the mointh
   - [ ] since ever
 - [ ] authntication
   - [ ] google auth
