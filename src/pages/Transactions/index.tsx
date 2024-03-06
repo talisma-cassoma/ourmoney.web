@@ -2,8 +2,10 @@ import { useContextSelector } from 'use-context-selector'
 import { Header } from '../../components/Header'
 import { Summary } from '../../components/Summary'
 import { TransactionsContext } from '../../contexts/TransactionsContext'
+import { LoginModalContextProvider } from '../../contexts/LoginModalContext'
 import { dateFormatter, priceFormatter } from '../../utils/formatter'
 import { SearchForm } from './components/SearchForm'
+
 
 import {
   PriceHighlight,
@@ -18,7 +20,9 @@ export function Transactions() {
 
   return (
     <div>
+      <LoginModalContextProvider>
       <Header />
+      </LoginModalContextProvider>
       <Summary />
 
       <TransactionsContainer>

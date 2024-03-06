@@ -41,6 +41,8 @@ export const Content = styled(Dialog.Content)`
     }
 
     button[type='submit'] {
+      diplay:grid;
+      justify-self: center;
       height: 50px;
       border: 0;
       background: ${(props) => props.theme['green-500']};
@@ -50,6 +52,8 @@ export const Content = styled(Dialog.Content)`
       border-radius: 6px;
       margin-top: 1.25rem;
       cursor: pointer;
+      text-align: center;
+  
 
       &:disabled {
         opacity: 0.6;

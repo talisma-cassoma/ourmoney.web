@@ -1,10 +1,10 @@
 // GoogleLoginButton.tsx
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
-import { api } from '../../lib/axios';
+import { api } from '../../../lib/axios';
 import { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 import '../LoginButton/styles.scss';
 
@@ -17,7 +17,7 @@ type User = {
 };
 
 export function GoogleLoginButton() {
-  const navigate = useNavigate(); // Access navigate function
+  //const navigate = useNavigate(); // Access navigate function
   const { setVerifiedUser } = useContext(AuthContext); // Access setUser from Auth context
   const [user, setUser] = useState<User | undefined>();
 
@@ -30,6 +30,7 @@ const handleSuccess = async (res: GoogleLoginResponse | GoogleLoginResponseOffli
   }
 
   setUser({ email, googleId, name });
+  console.log(user)
   
   try {
     const response = await api.post('/login', user);
@@ -39,7 +40,7 @@ const handleSuccess = async (res: GoogleLoginResponse | GoogleLoginResponseOffli
     } else {
       const authToken = response.data.authToken;
       setVerifiedUser({ name, email, authToken }); // Update user in Auth context with token
-      navigate('/our-money/transactions'); // Redirect to "/transactions" page
+      //navigate('/our-money/transactions'); // Redirect to "/transactions" page
     }
   } catch (error) {
     console.error("Error logging in:", error);

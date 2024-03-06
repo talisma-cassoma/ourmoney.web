@@ -1,0 +1,106 @@
+.DialogOverlay{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.DialogContent {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  min-width: 15em;
+  max-height: 85vh;
+  padding: 5em;
+  
+  .DialogDiscription{
+    width: 100%;
+  }
+  img{
+    display: grid;
+  justify-self: center;
+  padding:2em 0;
+}
+  .separator {
+    font-size: 14px;
+    color: #a8a8b3;
+    
+    margin: 32px 0;
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #a8a8b3;
+      margin-right: 16px;
+    }
+
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #a8a8b3;
+      margin-left: 16px;
+    }
+  }
+
+  form{
+    display: grid;
+    gap: 2em;
+
+    input {
+      border-radius: 6px;
+      border: 0;
+      background: #f9f3f3;
+      color: #333;
+      padding: 1rem;
+      text-align: center;
+      &::placeholder {
+        color: gray-500;
+      }
+    }
+  }
+
+}
+
+.login {
+height: 3em;
+  width: 100%;
+  border-radius: .4em;
+  font-weight: 500;
+  background: #00875F;
+  color: #FFF;
+ text-align: center;
+  display: grid;
+  align-self: self-end;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  border: 0;
+
+  transition: filter 0.2s;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+}
+/* reset */
+button,
+fieldset,
+input {
+  all: unset;
+}
+
