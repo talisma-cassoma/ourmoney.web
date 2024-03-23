@@ -8,6 +8,7 @@
 
 .DialogContent {
   overflow:scroll;
+  scrollbar-width: none;
   display: grid;
   align-items: center;
   justify-content: center;

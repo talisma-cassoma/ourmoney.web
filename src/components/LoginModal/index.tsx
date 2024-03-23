@@ -29,12 +29,12 @@ export function LoginModal() {
     start();
   }, []);
 
-  const handleEmailChange = (e:ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+  const handleEmailChange = (event:ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
   };
 
-  const handlePasswordChange = (e:ChangeEvent<HTMLInputElement> ) => {
-    setPassword(e.target.value);
+  const handlePasswordChange = (event:ChangeEvent<HTMLInputElement> ) => {
+    setPassword(event.target.value);
   };
 
   return (
@@ -43,7 +43,7 @@ export function LoginModal() {
         <Dialog.Overlay className='DialogOverlay' />
         <Dialog.Content className="DialogContent">
           <Dialog.Description className="DialogDescription">
-            <p>connecte-se com sua conta para ver os seus dados.</p>
+            <p>conecte-se com sua conta para ver os seus dados.</p>
           </Dialog.Description>
           <img src={logoImg} alt="our-money" />
           <GoogleLoginButton />
@@ -63,11 +63,11 @@ export function LoginModal() {
             />
             <LoginButton email={email} password={password} />
           </form>
-          <button className="IconButton" aria-label="Close" onClick={closeLoginModal}>
+          <div className="IconButton" aria-label="Close" onClick={closeLoginModal} >
             <CloseButton>
               <X size={24} />
             </CloseButton>
-          </button>
+          </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

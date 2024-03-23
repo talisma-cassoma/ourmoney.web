@@ -115,6 +115,16 @@
       "email": "talis@gmail.com",
       "createdAt": "2024-03-04T13:18:39.391Z",
       "id": 13
+    },
+    {
+      "description": "feijao",
+      "price": 16,
+      "category": "alimenatacao",
+      "type": "outcome",
+      "owner": "talis",
+      "email": "talis@gmail.com",
+      "createdAt": "2024-03-12T15:17:36.776Z",
+      "id": 14
     }
   ]
 }

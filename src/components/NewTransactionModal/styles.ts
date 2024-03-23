@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import * as Dialog from '@radix-ui/react-dialog'
 import * as RadioGroup from '@radix-ui/react-radio-group'
+import * as Tabs from '@radix-ui/react-tabs';
+
 
 export const Overlay = styled(Dialog.Overlay)`
   position: fixed;
@@ -13,19 +15,21 @@ export const Overlay = styled(Dialog.Overlay)`
 export const Content = styled(Dialog.Content)`
   min-width: 32rem;
   border-radius: 6px;
-  padding: 2.5rem 3rem;
   background: ${(props) => props.theme['gray-800']};
-
+  
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
+  
   form {
-    margin-top: 2rem;
+    margin-top: 0rem;
 
+    padding: 0.4rem 2.5rem 3rem 2.5rem;
+    min-height:25rem;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     gap: 1rem;
 
     input {
@@ -75,7 +79,6 @@ export const CloseButton = styled(Dialog.Close)`
   top: 1.5rem;
   right: 1.5rem;
   line-height: 0;
-  c
   color: ${(props) => props.theme['gray-500']};
 `
 
@@ -128,3 +131,26 @@ export const TransactionTypeButton = styled(
     }
   }
 `
+
+export const StyledTabsList = styled(Tabs.List)`
+  display: flex;
+  gap: 10px; /* Adjust the space between tabs as needed */
+  padding-bottom: 0;
+  height: fit-content;
+  width: 100%;
+  /*justify-content: space-between;*/
+  
+`;
+
+
+export const StyledTabsTrigger = styled(Tabs.Trigger)`
+  padding: 1.6rem 15px; /* Adjust padding as needed */
+  cursor: pointer;
+  border: 2px 2px solid black; /* Add border */
+  border-radius: 6px; /* Adjust as needed */
+  width:10m;
+
+  &:focus {
+    background-color: ${(props) => props.theme['gray-900']};
+  }
+`;
