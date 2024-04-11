@@ -125,6 +125,16 @@
       "email": "talis@gmail.com",
       "createdAt": "2024-03-12T15:17:36.776Z",
       "id": 14
+    },
+    {
+      "description": "kjbkb",
+      "price": 100,
+      "category": "kbkbk",
+      "type": "income",
+      "owner": "talis",
+      "email": "talis@gmail.com",
+      "createdAt": "2024-04-11T11:40:22.566Z",
+      "id": 15
     }
   ]
 }
