@@ -36,24 +36,18 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
   const fetchTransactions = useCallback(async (query?: string) => {
-    if (!query) {
+    if (query=='') {
       const response = await api.get('transactions', {
         params: {
           _sort: 'createdAt',
           _order: 'desc',
         },
       });
-  
+      
       setTransactions(response.data);
     } else {
-      const response = await api.get('transactions', {
-        params: {
-          _sort: 'createdAt',
-          _order: 'desc',
-        },
-      });
-  
-      const filteredTransactions = response.data.filter((transaction: Transaction) => {
+      console.log(transactions)
+      const filteredTransactions = transactions.filter((transaction: Transaction) => {
         return transaction.description.includes(query) || transaction.category.includes(query);
       });
   
