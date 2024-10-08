@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "http://talisma-cassoma.github.io/our-money",
+  "homepage": "http://talisma-cassoma.github.io/ourmoney",
   "scripts": {
     "dev": "vite",
     "dev:server": "json-server server.json -p 3333 -w -d 500",
