@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { createContext } from 'use-context-selector'
 import { api } from '../lib/axios'
+import Cookies from 'js-cookie';
 
 interface Transaction {
   id: number
@@ -36,7 +37,13 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
   const fetchTransactions = useCallback(async (query?: string) => {
+
+    const token = Cookies.get('token');
+    
     const response = await api.get('transactions', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       params: {
         _sort: 'createdAt',
         _order: 'desc',

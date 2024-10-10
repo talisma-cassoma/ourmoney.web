@@ -1,10 +1,9 @@
-import { ChangeEvent, useState, useEffect } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useLoginModal } from '../../contexts/LoginModalContext'; // Import the context hook
 import { LoginButton } from './LoginButton';
 import logoImg from '../../assets/logo.svg';
-import { GoogleLoginButton, clientId } from './GoogleLoginButton';
 import './styles.scss';
-import { gapi } from "gapi-script";
+
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'phosphor-react';
 import { CloseButton } from '../NewTransactionModal/styles';
@@ -15,20 +14,7 @@ export function LoginModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    function start() {
-      gapi.load('client:auth2', () => {
-        gapi.client.init({
-          clientId: clientId,
-          scope: ""
-        }).then(() => {
-          console.log('Google API initialized');
-        });
-      });
-    }
-    start();
-  }, []);
-
+  
   const handleEmailChange = (event:ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -46,8 +32,7 @@ export function LoginModal() {
             <p>conecte-se com sua conta para ver os seus dados.</p>
           </Dialog.Description>
           <img src={logoImg} alt="our-money" />
-          <GoogleLoginButton />
-          <div className="separator">ou faça login com sua password</div>
+          <div className="separator">faça login com sua password</div>
           <form >
             <input 
               className="Input email" 
