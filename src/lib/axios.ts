@@ -2,12 +2,14 @@ import axios from 'axios';
 
 let baseURL;
 
-if (window.location.hostname === "talisma-cassoma.github.io") {
+console.log(window.location.hostname)
+
+if (window.location.hostname === "localhost") {
   // Set production base URL
-  baseURL = 'https://our-money-bkd.onrender.com/api';
+  baseURL = 'http://localhost:3000/api';
 } else {
   // Set localhost base URL
-  baseURL = 'https://3333-talismacassoma-ourmoney-zq8f2dh5pz4.ws-eu110.gitpod.io';
+  baseURL = 'https://our-money-bkd.onrender.com/api';
 }
 
 export const api = axios.create({ baseURL });

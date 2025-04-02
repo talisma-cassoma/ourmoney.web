@@ -1,8 +1,8 @@
-import { MouseEvent } from 'react';
 import './styles.scss';
-import { useLoginModal } from '../../../contexts/LoginModalContext'; // Import the context hook
+import { useLoginModal } from '../../../contexts/LoginModalContext';
 import { api } from '../../../lib/axios';
-import Cookies from 'js-cookie';
+import { useContextSelector } from 'use-context-selector';
+import { TransactionsContext } from '../../../contexts/TransactionsContext';
 
 interface LoginButtonProps {
   email: string;
@@ -10,34 +10,41 @@ interface LoginButtonProps {
 }
 
 export function LoginButton({ email, password }: LoginButtonProps) {
-  const { closeLoginModal } = useLoginModal(); // Access context values
+  const { closeLoginModal } = useLoginModal();
+  // Obter a função markAsAuthenticated do TransactionsContext
+  const markAsAuthenticated = useContextSelector(TransactionsContext, (context) => context.markAsAuthenticated);
 
-  // Função que envia a requisição de login e armazena o token no cookie
-  async function onSubmit({ email, password }: LoginButtonProps) {
+  async function onSubmit(email: string, password: string) {
     try {
-      // Fazendo a requisição de login para a API backend
-      const response = await api.post('login', {
-        email,
-        password,
-      });
+      console.log('LoginButton: Attempting login...');
+      const response = await api.post('login', { email, password });
+      const token = response.data.authToken; // Certifique-se que 'authToken' é a chave correta
 
-      // Supondo que o token JWT venha no campo `token` da resposta
-      const token  = response.data;
+      if (token) {
+        localStorage.setItem('authToken', token);
+        console.log('LoginButton: Login successful, token stored.');
+        // <<< CHAMAR A FUNÇÃO DO CONTEXTO AQUI >>>
+        // Isso vai atualizar o estado isAuthenticated no TransactionsProvider
+        markAsAuthenticated();
 
-      // Armazenando o token nos cookies com duração de 1 hora (60 minutos)
-      Cookies.set('authToken', token, { expires: 1 / 24, secure: true });
+        // Apenas fecha o modal. O listener no TransactionsProvider vai pegar a
+        // mudança no localStorage (via 'storage' event) e acionar o fetch.
+        closeLoginModal();
+      } else {
+        console.error('LoginButton: Login successful but no token received.');
+        // Informar usuário sobre o erro?
+      }
 
-      console.log('Login bem-sucedido e token armazenado');
     } catch (error) {
-      console.error('Erro ao fazer login:', error);
+      console.error('LoginButton: Error during login:', error);
+      // Informar o usuário sobre o erro de login (ex: credenciais inválidas)
+      // Poderia usar um estado local para exibir mensagem de erro
     }
   }
 
-  // Evento de clique do botão
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    onSubmit({ email, password }); // Envia o email e a senha
-    closeLoginModal(); // Fecha o modal de login após o clique
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // Previne submit de formulário se estiver dentro de um
+    onSubmit(email, password);
   };
 
   return (

@@ -14,41 +14,42 @@ export function LoginModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  
-  const handleEmailChange = (event:ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
-  const handlePasswordChange = (event:ChangeEvent<HTMLInputElement> ) => {
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={isOpen ? closeLoginModal : undefined}>
-      <Dialog.Portal >
+      <Dialog.Portal>
         <Dialog.Overlay className='DialogOverlay' />
         <Dialog.Content className="DialogContent">
+          <Dialog.Title className="DialogTitle">Login</Dialog.Title> {/* Adicionado para acessibilidade */}
           <Dialog.Description className="DialogDescription">
-            <p>conecte-se com sua conta para ver os seus dados.</p>
+            Conecte-se com sua conta para ver os seus dados.
           </Dialog.Description>
           <img src={logoImg} alt="our-money" />
-          <div className="separator">faça login com sua password</div>
-          <form >
-            <input 
-              className="Input email" 
+          <div className="separator">Faça login com sua senha</div>
+          <form>
+            <input
+              className="Input email"
               placeholder="ex: nome@gmail.com"
               value={email}
               onChange={handleEmailChange}
             />
-            <input 
-              type="password" 
-              className="Input password" 
+            <input
+              type="password"
+              className="Input password"
+              placeholder="Digite sua senha"
               value={password}
               onChange={handlePasswordChange}
             />
             <LoginButton email={email} password={password} />
           </form>
-          <div className="IconButton" aria-label="Close" onClick={closeLoginModal} >
+          <div className="IconButton" aria-label="Close" onClick={closeLoginModal}>
             <CloseButton>
               <X size={24} />
             </CloseButton>
@@ -58,4 +59,3 @@ export function LoginModal() {
     </Dialog.Root>
   );
 }
-
