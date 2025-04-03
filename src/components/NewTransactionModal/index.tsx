@@ -5,7 +5,7 @@ import { Box } from '@radix-ui/themes';
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react';
 import { Controller, useForm } from 'react-hook-form';
 import { useContextSelector } from 'use-context-selector';
-import * as z from 'zod';
+import { z } from 'zod';
 import { TransactionsContext } from '../../contexts/TransactionsContext';
 import './styles.scss';
 import {
@@ -26,6 +26,16 @@ const newTransactionFormSchema = z.object({
 })
 
 type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
+
+type CreateTransactionInput = {
+  description: string;
+  price: number;
+  category: string;
+  type: 'income' | 'outcome';
+  owner: string;
+  email: string;
+}
+
 
 export function NewTransactionModal() {
   
@@ -59,7 +69,7 @@ export function NewTransactionModal() {
       type,
       owner: "talis",
       email: "talis@gmail.com",
-    })
+    } as CreateTransactionInput)
 
     reset()
   }
