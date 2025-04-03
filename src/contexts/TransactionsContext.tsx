@@ -2,37 +2,36 @@ import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { createContext } from 'use-context-selector';
 import { api } from '../lib/axios';
 
-// ... (interfaces Transaction, CreateTransactionInput) ...
+// ... Interfaces Transaction, CreateTransactionInput (sem alterações) ...
 interface Transaction {
-  id: number
-  description: string
-  type: 'income' | 'outcome'
-  price: number
-  category: string
-  createdAt: string
+  id: number;
+  description: string;
+  type: 'income' | 'outcome';
+  price: number;
+  category: string;
+  createdAt: string;
 }
 
 interface CreateTransactionInput {
-  description: string
-  price: number
-  category: string
-  type: 'income' | 'outcome'
-  owner: string
-  email: string
+  description: string;
+  price: number;
+  category: string;
+  type: 'income' | 'outcome';
 }
 
+
 interface TransactionContextType {
-  transactions: Transaction[]
-  fetchTransactions: (query?: string) => Promise<void>
-  createTransaction: (data: CreateTransactionInput) => Promise<void>
-  isLoading: boolean
-  isAuthenticated: boolean
-  // Nova função para ser chamada após o login bem-sucedido
-  markAsAuthenticated: () => void
+  transactions: Transaction[];
+  fetchTransactions: (query?: string) => Promise<void>;
+  createTransaction: (data: CreateTransactionInput) => Promise<void>;
+  isLoading: boolean; // Indica carregamento de *transações*
+  isAuthenticated: boolean | null; // null = estado inicial (verificando), false = não autenticado, true = autenticado
+  markAsAuthenticated: () => void;
+  handleLogoutOrTokenInvalid: () => void;
 }
 
 interface TransactionsProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export const TransactionsContext = createContext({} as TransactionContextType);
@@ -40,132 +39,173 @@ export const TransactionsContext = createContext({} as TransactionContextType);
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    // A verificação inicial do token ainda é importante
-    const token = localStorage.getItem('authToken');
-    console.log('TransactionsContext Initial Mount: Token found?', !!token);
-    return !!token;
-  });
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
-  // Função para buscar transações (lógica interna permanece a mesma)
+  // Efeito 1: Verificação Inicial (Roda APENAS UMA VEZ na montagem)
+  // Responsabilidade: Definir o estado inicial de 'isAuthenticated' baseado no localStorage.
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    console.log('TransactionsContext Initial Mount: Checking token...');
+    if (token) {
+      console.log('TransactionsContext Initial Mount: Token found. Setting authenticated.');
+      // Apenas define o estado. A reação (fetch) será tratada pelo Efeito 2.
+      setIsAuthenticated(true);
+    } else {
+      console.log('TransactionsContext Initial Mount: No token found. Setting unauthenticated.');
+      setIsAuthenticated(false);
+    }
+  }, []); // Array vazio garante execução única na montagem
+
+  // ... handleLogoutOrTokenInvalid, fetchTransactions, createTransaction, markAsAuthenticated (sem alterações) ...
+   // Handler centralizado para logout ou token inválido
+   const handleLogoutOrTokenInvalid = useCallback(() => {
+    setIsAuthenticated(currentAuth => {
+      if (currentAuth === true) {
+          console.warn("TransactionsContext: Handling logout or invalid token.");
+          localStorage.removeItem('authToken');
+          setTransactions([]);
+          setIsLoading(false);
+          return false;
+      }
+      return currentAuth;
+    });
+  }, []);
+
+  // Fetch transactions
   const fetchTransactions = useCallback(async (query?: string) => {
+    console.log("TransactionsContext (fetchTransactions): Fetching...");
     const token = localStorage.getItem('authToken');
     if (!token) {
-      console.warn("TransactionsContext (fetchTransactions): No token found. Aborting.");
-      if (transactions.length > 0) setTransactions([]);
-      // Garante que o estado isAuthenticated esteja como false se não houver token
-      if (isAuthenticated) {
-          console.log("TransactionsContext (fetchTransactions): Token missing, setting isAuthenticated to false.");
-          setIsAuthenticated(false);
-      }
+      console.error("TransactionsContext (fetchTransactions): Token missing unexpectedly! Logging out.");
+      handleLogoutOrTokenInvalid();
       return;
     }
-     // Se por acaso o estado estiver dessincronizado (raro, mas possível), corrija antes de buscar
-    if (!isAuthenticated) {
-        console.warn("TransactionsContext (fetchTransactions): Token found, but state is not authenticated. Correcting state.");
-        setIsAuthenticated(true);
-        // A busca será acionada pelo useEffect na próxima renderização
-        return;
-    }
-
-
-    console.log("TransactionsContext (fetchTransactions): Fetching transactions...");
     setIsLoading(true);
     try {
       const response = await api.get('transactions', {
         headers: { Authorization: `Bearer ${token}` },
         params: { _sort: 'createdAt', _order: 'desc', q: query },
       });
-      setTransactions(response.data);
-      console.log("TransactionsContext (fetchTransactions): Success.");
+       setIsAuthenticated(currentAuth => {
+         if (currentAuth === true) {
+           setTransactions(response.data);
+           console.log("TransactionsContext (fetchTransactions): Success.");
+           return true;
+         } else {
+           console.warn("TransactionsContext (fetchTransactions): Became unauthenticated during fetch. Discarding results.");
+           setTransactions([]);
+           return false;
+         }
+       });
     } catch (error: any) {
       console.error("TransactionsContext (fetchTransactions): Error:", error);
-      setTransactions([]);
       if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-        console.warn("TransactionsContext (fetchTransactions): Auth error (401/403). Removing token.");
-        localStorage.removeItem('authToken');
-        setIsAuthenticated(false); // <<< Dispara a atualização de estado e limpeza no useEffect
+        console.warn("TransactionsContext (fetchTransactions): API returned Auth error (401/403).");
+        handleLogoutOrTokenInvalid();
+      } else {
+        console.error("TransactionsContext (fetchTransactions): Non-auth error occurred.");
+        setIsAuthenticated(currentAuth => {
+            if (currentAuth === true) setIsLoading(false);
+            return currentAuth;
+        });
       }
     } finally {
-      setIsLoading(false);
+       setIsAuthenticated(currentAuth => {
+         if (currentAuth === true) setIsLoading(false);
+         return currentAuth;
+       });
     }
-  // Dependências: isAuthenticated é crucial aqui para re-rodar se o estado for corrigido acima.
-  // transactions.length pode ser útil se a lógica de limpeza depender dele.
-  }, [isAuthenticated, transactions.length]);
+  }, [handleLogoutOrTokenInvalid]);
 
-  // Função para criar transação (sem mudanças significativas aqui)
+  // Create transaction
   const createTransaction = useCallback(
     async (data: CreateTransactionInput) => {
-      // ... (lógica existente) ...
-       const token = localStorage.getItem('authToken');
-        if (!token || !isAuthenticated) {
-            console.error("TransactionsContext (createTransaction): Not authenticated. Aborting.");
-            return;
+      console.log("TransactionsContext (createTransaction): Attempting create...");
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        console.error("TransactionsContext (createTransaction): Token missing unexpectedly! Logging out.");
+        handleLogoutOrTokenInvalid();
+        throw new Error("Authentication failed: Token missing unexpectedly.");
+      }
+      const { description, price, category, type } = data;
+      try {
+        await api.post(
+          'transactions',
+          { description, price, category, type },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        console.log("TransactionsContext (createTransaction): Success. Fetching updates...");
+        await fetchTransactions();
+      } catch (error: any) {
+        console.error("TransactionsContext (createTransaction): Error:", error);
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          console.warn("TransactionsContext (createTransaction): API returned Auth error (401/403).");
+          handleLogoutOrTokenInvalid();
+          throw new Error("Authentication failed during transaction creation.");
+        } else {
+          console.error("TransactionsContext (createTransaction): Non-auth error occurred.");
+           throw error;
         }
-         // ... resto da lógica ...
-        try {
-          // ... chamada api ...
-          await fetchTransactions(); // Busca após criar
-        } catch(error: any) {
-             console.error("TransactionsContext (createTransaction): Error:", error);
-             if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-                console.warn("TransactionsContext (createTransaction): Auth error (401/403). Removing token.");
-                localStorage.removeItem('authToken');
-                setIsAuthenticated(false);
-            }
-        }
-        // ... finally ...
+      }
     },
-    [fetchTransactions, isAuthenticated],
+    [fetchTransactions, handleLogoutOrTokenInvalid]
   );
 
-  // >>> NOVA FUNÇÃO <<<
-  // Função para ser chamada explicitamente após um login bem-sucedido
+  // Marca como autenticado
   const markAsAuthenticated = useCallback(() => {
-    console.log("TransactionsContext: markAsAuthenticated called. Setting isAuthenticated to true.");
-    // Verifica se já não está autenticado para evitar re-renderizações desnecessárias
-    if (!isAuthenticated) {
-        setIsAuthenticated(true);
-    }
-    // Nota: Não precisamos chamar fetchTransactions() aqui diretamente.
-    // O useEffect abaixo, que depende de `isAuthenticated`, fará isso
-    // quando o estado for atualizado.
-  }, [isAuthenticated]); // Depende de isAuthenticated para evitar chamada desnecessária
+    setIsAuthenticated(currentAuth => {
+        if (currentAuth !== true) {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                console.log("TransactionsContext: markAsAuthenticated called. Setting isAuthenticated to true.");
+                return true;
+            } else {
+                console.warn("TransactionsContext: markAsAuthenticated called, but no token found. Handling as logout.");
+                handleLogoutOrTokenInvalid();
+                return false;
+            }
+        }
+        return currentAuth;
+    });
+  }, [handleLogoutOrTokenInvalid]);
 
-  // Efeito para reagir a mudanças no localStorage (ainda útil para sync entre abas/janelas e logout)
+
+  // Efeito 2: Reação à Mudança de Autenticação (Roda sempre que 'isAuthenticated' muda)
+  // Responsabilidade: Executar ações (buscar dados, limpar dados) com base no estado de autenticação ATUAL.
+  // Isso cobre a carga inicial (após Efeito 1 definir o estado) e também login/logout.
+  useEffect(() => {
+    console.log(`TransactionsContext (Auth Effect): isAuthenticated changed to: ${isAuthenticated}`);
+    if (isAuthenticated === true) {
+      console.log("TransactionsContext (Auth Effect): Is authenticated, calling fetchTransactions.");
+      fetchTransactions(); // Busca dados ao se tornar autenticado
+    } else if (isAuthenticated === false) {
+      console.log("TransactionsContext (Auth Effect): Is NOT authenticated, ensuring clean state.");
+      setTransactions([]); // Limpa dados ao se tornar não autenticado
+      setIsLoading(false); // Garante que não fique em estado de loading
+    }
+    // Se isAuthenticated for null (estado inicial antes do Efeito 1 terminar), não faz nada.
+  }, [isAuthenticated, fetchTransactions]); // Depende do estado e da função de fetch estável
+
+  // ... Efeito de Storage Listener (sem alterações) ...
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === 'authToken') {
         const currentToken = localStorage.getItem('authToken');
         const nowAuthenticated = !!currentToken;
-        console.log(`TransactionsContext (Storage Listener): Auth token changed in storage. Now ${nowAuthenticated ? 'present' : 'absent'}.`);
-        // Atualiza o estado interno se ele for diferente do que o storage indica
-        if (nowAuthenticated !== isAuthenticated) {
-           console.log(`TransactionsContext (Storage Listener): Updating internal state to ${nowAuthenticated}.`);
-           setIsAuthenticated(nowAuthenticated);
-        }
+        console.log(`TransactionsContext (Storage Listener): Auth token changed externally. Now ${nowAuthenticated ? 'present' : 'absent'}.`);
+        setIsAuthenticated(prevAuth => {
+          const needsUpdate = (nowAuthenticated && prevAuth !== true) || (!nowAuthenticated && prevAuth === true);
+          if (needsUpdate) {
+            console.log(`TransactionsContext (Storage Listener): Updating internal state to ${nowAuthenticated}.`);
+            return nowAuthenticated;
+          }
+          return prevAuth;
+        });
       }
     };
-
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
-  }, [isAuthenticated]); // Dependência é importante para a comparação dentro do handler
-
-  // Efeito Principal: Reage à mudança no estado `isAuthenticated`
-  // (seja pela função markAsAuthenticated, pelo storage listener ou pelo erro 401/403)
-  useEffect(() => {
-    console.log(`TransactionsContext (Auth Effect): Running effect because isAuthenticated is now ${isAuthenticated}.`);
-    if (isAuthenticated) {
-      console.log("TransactionsContext (Auth Effect): Is authenticated, calling fetchTransactions.");
-      fetchTransactions();
-    } else {
-      console.log("TransactionsContext (Auth Effect): Is NOT authenticated, clearing transactions.");
-      // Limpa as transações apenas se houver alguma para limpar
-      if (transactions.length > 0) {
-         setTransactions([]);
-      }
-    }
-  }, [isAuthenticated, fetchTransactions, transactions.length]); // Mantenha as dependências
+  }, []);
 
   return (
     <TransactionsContext.Provider
@@ -175,7 +215,8 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         createTransaction,
         isLoading,
         isAuthenticated,
-        markAsAuthenticated, // <<< Expondo a nova função
+        markAsAuthenticated,
+        handleLogoutOrTokenInvalid,
       }}
     >
       {children}
