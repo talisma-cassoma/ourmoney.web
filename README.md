@@ -21,6 +21,5 @@
 - [x] show outcome(expenses) :
   - [ ] of the mointh
   - [ ] since ever
-- [ ] authntication
-  - [ ] google auth
-  - [ ] email/password
+- [x] authntication
+  - [x] email/password
