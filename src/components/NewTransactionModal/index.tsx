@@ -1,7 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Dialog from '@radix-ui/react-dialog';
-import * as Tabs from '@radix-ui/react-tabs';
-import { Box } from '@radix-ui/themes';
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react';
 import { Controller, useForm } from 'react-hook-form';
 import { useContextSelector } from 'use-context-selector';
@@ -13,7 +11,8 @@ import {
   Content,
   Overlay,
   TransactionType,
-  TransactionTypeButton
+  TransactionTypeButton,
+  Title
 } from './styles'
 
 const newTransactionFormSchema = z.object({
@@ -64,10 +63,8 @@ export function NewTransactionModal() {
       <Overlay />
 
       <Content>
-        <Dialog.Title>Nova Transação</Dialog.Title>
-        <Dialog.Description>
-          Preencha os campos abaixo.
-        </Dialog.Description>
+        < Title>Nova Transação</Title>
+        <Dialog.Description></Dialog.Description>
 
         <CloseButton>
           <X size={24} />

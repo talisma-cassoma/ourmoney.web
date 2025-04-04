@@ -11,6 +11,9 @@ export const Overlay = styled(Dialog.Overlay)`
   inset: 0;
   background: rgba(0, 0, 0, 0.75);
 `
+export const Title = styled(Dialog.Title)`
+  padding: 2em;
+`
 
 export const Content = styled(Dialog.Content)`
   min-width: 32rem;
@@ -76,8 +79,8 @@ export const CloseButton = styled(Dialog.Close)`
   position: absolute;
   background: transparent;
   border: 0;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1em;
+  right: 1em;
   line-height: 0;
   color: ${(props) => props.theme['gray-500']};
 `
