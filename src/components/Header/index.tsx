@@ -3,31 +3,42 @@ import * as Dialog from '@radix-ui/react-dialog'
 import logoImg from '../../assets/logo.svg'
 import { NewTransactionModal } from '../NewTransactionModal'
 import { LoginModal } from '../LoginModal'
-import { useLoginModal } from '../../contexts/LoginModalContext'
+import { useContextSelector } from 'use-context-selector';
+import { TransactionsContext } from '../../contexts/TransactionsContext'
+
 
 export function Header() {
-  const { openLoginModal } = useLoginModal(); // Using the hook here to access the openLoginModal function
+  const handleLogoutOrTokenInvalid = useContextSelector(
+    TransactionsContext,
+    (context) => context.handleLogoutOrTokenInvalid
+  );
+
+  function logout() {
+    localStorage.removeItem('authToken');
+    handleLogoutOrTokenInvalid();
+  }
+  //const { openLoginModal } = useLoginModal(); // Using the hook here to access the openLoginModal function
 
   return (
-    
-      <HeaderContainer>
-        <HeaderContent>
-          <ProfileWrapper>
-            <img src={logoImg} alt="" />
-            {/* <Profile/> */}
-            <p onClick={openLoginModal}>faça o seu login</p>
-            <LoginModal />
-          </ProfileWrapper>
 
-          <Dialog.Root>
-            <Dialog.Trigger asChild>
-              <NewTransactionButton>Nova transação</NewTransactionButton>
-            </Dialog.Trigger>
+    <HeaderContainer>
+      <HeaderContent>
+        <ProfileWrapper>
+          <img src={logoImg} alt="" />
+          <p onClick={logout} style={{ cursor: 'pointer', textAlign: 'center', fontWeight:'bolder'}}>
+            logout
+          </p>
+          <LoginModal />
+        </ProfileWrapper>
 
-            <NewTransactionModal />
-          </Dialog.Root>
+        <Dialog.Root>
+          <Dialog.Trigger asChild>
+            <NewTransactionButton>Nova transação</NewTransactionButton>
+          </Dialog.Trigger>
 
-        </HeaderContent>
-      </HeaderContainer>
+          <NewTransactionModal />
+        </Dialog.Root>
+      </HeaderContent>
+    </HeaderContainer>
   )
 }

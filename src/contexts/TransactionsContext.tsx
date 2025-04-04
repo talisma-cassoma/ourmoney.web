@@ -128,10 +128,17 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         throw new Error("Authentication failed: Token missing unexpectedly.");
       }
       const { description, price, category, type } = data;
+      const email="talisma@email.com";
+      const owner="talisma"
       try {
         await api.post(
           'transactions',
-          { description, price, category, type },
+          { description,
+            type,
+            category,
+            price,
+            owner,
+            email},
           { headers: { Authorization: `Bearer ${token}` } }
         );
         console.log("TransactionsContext (createTransaction): Success. Fetching updates...");
