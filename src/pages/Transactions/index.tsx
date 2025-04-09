@@ -5,6 +5,7 @@ import { TransactionsContext } from '../../contexts/TransactionsContext';
 import { LoginModal } from '../../components/LoginModal'
 import { dateFormatter, priceFormatter } from '../../utils/formatter';
 import { SearchForm } from './components/SearchForm';
+import { DeleteTransactionButton } from '../../components/deleteTransactionButton';
 
 import {
   PriceHighlight,
@@ -25,7 +26,7 @@ export function Transactions() {
 
   return (
     <div>
-      <Header />      
+      <Header />
       {isLoginModalOpen && <LoginModal />}
       <Summary />
       <TransactionsContainer>
@@ -41,20 +42,25 @@ export function Transactions() {
               {transactions.map((transaction) => {
 
                 return (
-                    <tr key={transaction.id}>
-                      <td width="50%">{transaction.description}</td>
-                      <td>
-                        <PriceHighlight variant={transaction.type}>
-                          {transaction.type === 'outcome' && '- '}
-                          {priceFormatter.format(transaction.price)}
-                        </PriceHighlight>
-                      </td>
-                      <td>{transaction.category}</td>
-                      <td>
-                        {dateFormatter.format(new Date(transaction.createdAt))}
-                      </td>
-                    </tr>
-                  )
+                  <tr key={transaction.id}>
+                    <td width="50%">{transaction.description}</td>
+                    <td>
+                      <PriceHighlight variant={transaction.type}>
+                        {transaction.type === 'outcome' && '- '}
+                        {priceFormatter.format(transaction.price)}
+                      </PriceHighlight>
+                    </td>
+                    <td>{transaction.category}</td>
+                    <td>
+                      {dateFormatter.format(new Date(transaction.createdAt))}
+                    </td>
+                    <td>
+                      <DeleteTransactionButton
+                        transactionId={transaction.id}
+                        onDelete={() => console.log(`Transação ${transaction.id} deletada!`)} />
+                    </td>
+                  </tr>
+                )
               })}
             </tbody>
           </TransactionsTable>
