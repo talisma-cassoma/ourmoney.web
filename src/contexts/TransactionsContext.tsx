@@ -22,6 +22,7 @@ interface CreateTransactionInput {
 
 interface TransactionContextType {
   transactions: Transaction[];
+  setTransactions: ()=> void;
   fetchTransactions: (query?: string) => Promise<void>;
   createTransaction: (data: CreateTransactionInput) => Promise<void>;
   isLoading: boolean; // Indica carregamento de *transações*
@@ -218,6 +219,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     <TransactionsContext.Provider
       value={{
         transactions,
+        setTransactions,
         fetchTransactions,
         createTransaction,
         isLoading,
