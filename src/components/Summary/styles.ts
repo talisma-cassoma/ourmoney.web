@@ -5,9 +5,9 @@ export const SummaryContainer = styled.section`
   max-width: 1120px;
   margin: 0 auto;
   padding: 0 1.5rem;
-
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  grid-template-columns: repeat(auto-fit, (max-content, 1fr));
+  justify-content: space-around;
   gap: 2rem;
   flex-wrap: wrap;
   margin-top: -5rem;
