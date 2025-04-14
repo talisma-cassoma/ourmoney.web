@@ -4,7 +4,7 @@ import { api } from '../lib/axios';
 
 // ... Interfaces Transaction, CreateTransactionInput (sem alterações) ...
 interface Transaction {
-  id: number;
+  id: string;
   description: string;
   type: 'income' | 'outcome';
   price: number;
@@ -22,7 +22,7 @@ interface CreateTransactionInput {
 
 interface TransactionContextType {
   transactions: Transaction[];
-  setTransactions: ()=> void;
+  setTransactions: (transaction: Transaction[])=> void;
   fetchTransactions: (query?: string) => Promise<void>;
   createTransaction: (data: CreateTransactionInput) => Promise<void>;
   isLoading: boolean; // Indica carregamento de *transações*
