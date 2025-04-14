@@ -43,7 +43,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const handleLogoutOrTokenInvalid = useCallback(() => {
     setIsAuthenticated(current => {
       if (current === true) {
-        console.warn('[TransactionsContext] Logout ou token inválido detectado.');
+        console.warn('[TransactionsContext] Logout or invalid token.');
         localStorage.removeItem('authToken');
         setTransactions([]);
         setIsLoading(false);
@@ -57,7 +57,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     const token = getToken();
 
     if (!token) {
-      console.error('[fetchTransactions] Token ausente. Executando logout.');
+      console.error('[fetchTransactions] Token inexistent. running logout.');
       handleLogoutOrTokenInvalid();
       return;
     }
@@ -72,10 +72,10 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
       setIsAuthenticated(current => {
         if (current === true) {
           setTransactions(response.data);
-          console.log('[fetchTransactions] Transações atualizadas com sucesso.');
+          console.log('[fetchTransactions] Transações upated sucessfully.');
           return true;
         }
-        console.warn('[fetchTransactions] Estado mudou para não autenticado durante o fetch.');
+        console.warn('[fetchTransactions] user isnt logged.');
         setTransactions([]);
         return false;
       });
@@ -86,7 +86,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
       if (status === 401 || status === 403) {
         handleLogoutOrTokenInvalid();
       } else {
-        console.warn('[fetchTransactions] Erro não relacionado à autenticação.');
+        console.warn('[fetchTransactions] Erro authentication fail.');
       }
     } finally {
       setIsAuthenticated(current => {
@@ -100,7 +100,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     const token = getToken();
     if (!token) {
       handleLogoutOrTokenInvalid();
-      throw new Error('Token ausente ao tentar criar transação.');
+      throw new Error('Token ausente inexistent.');
     }
 
     try {
@@ -121,7 +121,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
       if (status === 401 || status === 403) {
         handleLogoutOrTokenInvalid();
-        throw new Error('Falha de autenticação na criação da transação.');
+        throw new Error('fail saving transaction.');
       }
 
       throw error;
